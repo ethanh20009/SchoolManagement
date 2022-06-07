@@ -18,6 +18,16 @@ public class Classroom implements Serializable{
         this.endDate = endDate;
     }
 
+    public boolean teachesSubject(Teacher teacher)
+    {
+        return this.teachers.contains(teacher);
+    }
+
+    public boolean isInClass(Student student)
+    {
+        return this.students.contains(student);
+    }
+
     public ArrayList<Student> getStudents() {
         return students;
     }
