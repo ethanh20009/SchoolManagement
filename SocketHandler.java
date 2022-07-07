@@ -39,8 +39,77 @@ public class SocketHandler implements Runnable{
         }
     }
 
+    private void sendMessage(String message)
+    {
+        try{
+            this.outputStream.write(message);
+            this.outputStream.newLine();
+            this.outputStream.flush();
+        }
+        catch(IOException e){
+            //Ignore
+        }
+    }
+
+
+
+    private void login () throws IOException
+    {
+        sendMessage("Login...");
+        sendMessage("Username:");
+        try{
+            String username = this.inputStream.readLine();
+            sendMessage("Password:");
+            String password = this.inputStream.readLine();
+            User user = parent.login(username, password);
+            if (user != null)
+            {
+                sendMessage("Login successful!, logged in as a " + (user instanceof Teacher ? "teacher" : "student"));
+                sendMessage("Welcome " + user.getUsername() + "!");
+                if (user instanceof Teacher)
+                {
+                    teacher((Teacher)user);
+                }
+                else if (user instanceof Student)
+                {
+                    student((Student)user);
+
+                }
+            }
+            else
+            {
+                sendMessage("Login failed!");
+            }
+
+        }
+        catch(IOException e){
+            throw e;
+        }
+    }
+
     @Override
     public void run() {
+        try{
+            while (true)
+            {
+                login();
+            }
+
+        }
+        catch(IOException e)
+        {
+            //Ignore
+        }
+        
+    }
+
+    public void teacher(Teacher teacher) throws IOException
+    {
+        
+    }
+
+    public void student(Student student) throws IOException
+    {
         
     }
 

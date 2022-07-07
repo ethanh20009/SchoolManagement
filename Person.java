@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public abstract class Person implements Serializable{
+public abstract class Person implements Serializable, User{
 
     private static int peopleCount = 0;
 
@@ -60,4 +60,5 @@ public abstract class Person implements Serializable{
         this.password = newPassword;
         return true;
     }
+
 }

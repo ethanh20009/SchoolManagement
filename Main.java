@@ -17,6 +17,30 @@ public class Main {
         load();
     }
 
+    public Teacher loginTeacher(String username, String password)
+    {
+        for (Teacher teacher : this.teachers)
+        {
+            if (teacher.validateCredentials(username, password))
+            {
+                return teacher;
+            }
+        }
+        return null;
+    }
+
+    public Student loginStudent(String username, String password)
+    {
+        for (Student student : this.students)
+        {
+            if (student.validateCredentials(username, password))
+            {
+                return student;
+            }
+        }
+        return null;
+    }
+
     public void save(){
         //save teachers
         //save students

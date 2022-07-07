@@ -26,6 +26,21 @@ public class Server implements Runnable{
         //TODO
     }
 
+    public User login(String username, String password)
+    {
+        Teacher teacher = schoolMain.loginTeacher(username, password);
+        if (teacher != null)
+        {
+            return teacher;
+        }
+        Student student = schoolMain.loginStudent(username, password);
+        if (student != null)
+        {
+            return student;
+        }
+        return null;
+    }
+
     @Override
     public void run() {
         try{
