@@ -1,5 +1,8 @@
 import java.io.*;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Callable;
 
 public class SocketHandler implements Runnable{
     private Socket socket;
@@ -73,14 +76,15 @@ public class SocketHandler implements Runnable{
                 else if (user instanceof Student)
                 {
                     student((Student)user);
-
+                }
+                else{
+                    sendMessage("Something went wrong. :(");
                 }
             }
             else
             {
                 sendMessage("Login failed!");
             }
-
         }
         catch(IOException e){
             throw e;
@@ -103,14 +107,59 @@ public class SocketHandler implements Runnable{
         
     }
 
+    void getClassesIn(Person person)
+    {
+        sendMessage("Class Test");
+    }
+
+    void getAndRunCommands(HashMap<String, Runnable> commands) throws IOException
+    {
+        try{
+            while (true)
+            {
+                sendMessage("Enter Command...");
+                String userCommand = this.inputStream.readLine();
+                Runnable func = commands.get(userCommand);
+                if (func != null)
+                {
+                    func.run();
+                }
+                else{
+                    sendMessage("Invalid command.");
+                }
+            }
+            
+        }
+        catch(IOException e)
+        {
+            throw e;
+        }
+    }
+
     public void teacher(Teacher teacher) throws IOException
     {
-        
+        HashMap<String, Runnable> commands = new HashMap<>();
+        commands.put("get classes", () -> getClassesIn(teacher));
+        try{
+            getAndRunCommands(commands);
+        }
+        catch(IOException e)
+        {
+            throw e;
+        }
     }
 
     public void student(Student student) throws IOException
     {
-        
+        HashMap<String, Runnable> commands = new HashMap<>();
+        commands.put("get classes", () -> getClassesIn(student));
+        try{
+            getAndRunCommands(commands);
+        }
+        catch(IOException e)
+        {
+            throw e;
+        }
     }
 
     

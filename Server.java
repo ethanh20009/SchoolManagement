@@ -13,7 +13,6 @@ public class Server implements Runnable{
     private Main schoolMain;
     private ServerSocket socket;
     private ArrayList<SocketHandler> sockets;
-    private ArrayList<Thread> threads;
 
     public Server()
     {
@@ -51,7 +50,8 @@ public class Server implements Runnable{
                 SocketHandler handler = new SocketHandler(this, connection);
                 Thread thread = new Thread(handler);
                 thread.start();
-                threads.add(thread);
+                sockets.add(handler);
+                
                 
             }
         }
